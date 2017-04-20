@@ -25,6 +25,18 @@ Pokemon.prototype.getCardsByType = function (type, displayCards) {
   });
 };
 
+Pokemon.prototype.getCardsByName = function (name, displayCards) {
+  $.get('https://api.pokemontcg.io/v1/cards?name=' + name)
+  .then(function(response) {
+    var cards = response.cards;
+    displayCards(cards);
+    console.log(cards);
+  })
+  .fail(function(error) {
+    console.log("didn't work");
+  });
+};
+
 Pokemon.prototype.getTypes = function(buildTypesDropdown) {
   $.get('https://api.pokemontcg.io/v1/types')
   .then(function(response) {
@@ -42,7 +54,7 @@ Pokemon.prototype.getSets = function (buildSetsDropdown) {
   .then(function(response) {
     var sets = response.sets;
     console.log(response.sets);
-    buildSetsDropdown(sets)
+    buildSetsDropdown(sets);
   })
   .fail(function(error) {
     console.log("FAILURE");
