@@ -37,4 +37,27 @@ Pokemon.prototype.getTypes = function(buildTypesDropdown) {
   });
 };
 
+Pokemon.prototype.getSets = function (buildSetsDropdown) {
+  $.get('https://api.pokemontcg.io/v1/sets')
+  .then(function(response) {
+    var sets = response.sets;
+    console.log(response.sets);
+    buildSetsDropdown(sets)
+  })
+  .fail(function(error) {
+    console.log("FAILURE");
+  });
+};
+
+Pokemon.prototype.getCardsBySet = function (set, displayCards) {
+  $.get('https://api.pokemontcg.io/v1/cards?setCode=' + set)
+  .then(function(response) {
+    var cards = response.cards;
+    displayCards(cards);
+  })
+  .fail(function(error) {
+    console.log("FAILURE");
+  });
+};
+
 exports.pokemonModule = Pokemon;

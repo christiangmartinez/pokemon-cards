@@ -8,7 +8,12 @@ var buildTypesDropdown = function(types) {
   });
 }
 
-
+var buildSetsDropdown = function(sets) {
+  $('#set').empty();
+  sets.forEach(function(set) {
+    $('#set').append('<option value="' + set.code + '">' + set.name + '</option>');
+  });
+}
 
 var displayCards = function(cards) {
     $('.showCards').empty();
@@ -22,6 +27,7 @@ var displayCards = function(cards) {
 };
 
 $(document).ready(function() {
+  myPokemon.getSets(buildSetsDropdown);
   myPokemon.getTypes(buildTypesDropdown);
   $('#listAllCards').click(function() {
     myPokemon.getAllCards(displayCards);
@@ -32,6 +38,12 @@ $(document).ready(function() {
     console.log(type);
     myPokemon.getCardsByType(type, displayCards);
   });
+  $('#listCardsBySet').submit(function(event) {
+    event.preventDefault();
+    var set = $('#set').val();
+    console.log(set);
+    myPokemon.getCardsBySet(set, displayCards);
+  })
 });
 //
 // var clearResults = function() {
