@@ -1,24 +1,37 @@
 var Pokemon = require('./../js/pokemon.js').pokemonModule;
+var myPokemon = new Pokemon();
+
+var buildTypesDropdown = function(types) {
+  $('#type').empty();
+  types.forEach(function(type) {
+    $('#type').append('<option value="' + type + '">' + type + '</option>');
+  });
+}
+
+
 
 var displayCards = function(cards) {
+    $('.showCards').empty();
   cards.forEach(function(card) {
-    $('.showCards').append('<div class="pokemonCard well">' +
-              '<h1>' + card.name + '</h1>' +
-              '<img src="' + card.imageUrl + '" alt="' + card.name + '" />' +
-              '<p>HP: ' + card.hp + '; Rarity: ' + card.rarity + '</p>' +
+    $('.showCards').append('<div class="pokemonCard well col-md-4">' +
+                '<h1>' + card.name + '</h1>' +
+                '<img src="' + card.imageUrl + '" alt="' + card.name + '" />' +
+                '<p>HP: ' + card.hp + '; Rarity: ' + card.rarity + '</p>' +
               '</div>');
   });
 };
 
 $(document).ready(function() {
-  var myPokemon = new Pokemon();
+  myPokemon.getTypes(buildTypesDropdown);
   $('#listAllCards').click(function() {
     myPokemon.getAllCards(displayCards);
   });
-  // $('#artistSearch').click(function() {
-  //   var artist = $('#artistName').val();
-  //   newMusicObject.getArtistsByName(artist, displayArtists);
-  // });
+  $('#listCardsByType').submit(function(event) {
+    event.preventDefault();
+    var type = $("#type").val();
+    console.log(type);
+    myPokemon.getCardsByType(type, displayCards);
+  });
 });
 //
 // var clearResults = function() {
